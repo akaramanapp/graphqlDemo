@@ -1,0 +1,41 @@
+
+buildscript {
+	dependencies{
+		classpath 'com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-gradle:latest.release'
+	}
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.4.2'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id "com.netflix.dgs.codegen" version "4.0.10"
+}
+
+apply plugin: 'com.netflix.dgs.codegen'
+
+group = 'com.dgs'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+	jcenter()
+}
+
+generateJava{
+	schemaPaths = ["${projectDir}/src/main/resources/schema"]
+	packageName = 'com.dgs.graphqlDemo'
+	generateClient = true
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:3.2.0'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'com.apollographql.federation:federation-graphql-java-support:0.6.1'
+}
+
+test {
+	useJUnitPlatform()
+}
